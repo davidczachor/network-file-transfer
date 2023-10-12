@@ -1,0 +1,34 @@
+#pragma once
+
+#include "FileTransfer.h"
+
+/*
+* CLASS    : FileServer
+* PURPOSE  : This class handles receiving files between connections
+*/
+class FileServer : public FileTransfer
+{
+public:
+	enum State
+	{
+		Listening,
+		Connecting,
+		Waiting,
+		Receiving,
+		Verifying,
+		Sending,
+		Finished
+	};
+
+	FileServer(std::string filename = "", bool testing = false);
+
+	virtual void Initialize();
+	virtual char* GetPacket();
+	virtual int ParsePacket(const char* packet);
+	virtual int ProcessPacket();
+
+	inline State GetState() { return state; }
+private:
+	State state;
+};
+
